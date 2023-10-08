@@ -90,13 +90,49 @@ Request body (at least one of these):
 `DELETE /users/:id`
 Deletes a user. Requires authentication.
 
-Authentication
+## Authentication
+
 This API uses JWT for authentication. To authenticate a request, include the JWT token in the Authorization header:
 
-```json
+```
 Authorization: Bearer <jwt-token>
 ```
 
-```json
+```
 Please replace `<repository-url>`, `<repository-directory>`, `<your-database-host>`, `<your-database-user>`, `<your-database-password>`, `<your-database-name>`, `<port-number>`, `<username>`, `<password>`, and `<jwt-token>` with your actual values.
 ```
+
+### `POST /users/:id/tasks`
+
+Creates a new task for the user with the specified `id`. Requires authentication.
+
+Request body:
+
+```json
+{
+  "title": "<title>",
+  "description": "<description>"
+}
+```
+
+### GET /users/:id/tasks
+Retrieves all tasks of the user with the specified `id`. Requires authentication.
+
+### GET /users/:id/tasks/:taskId
+Retrieves the details of a specific task of the user with the specified `id`. Requires authentication.
+
+### PUT /users/:id/tasks/:taskId
+Updates a specific task of the user with the specified `id`. Requires authentication. 
+
+Request body (at least one of these):
+```json
+{
+  "title": "<new-title>",
+  "description": "<new-description>"
+}
+```
+
+### DELETE /users/:id/tasks/:taskId
+Deletes a specific task of the user with the specified `id`. Requires authentication.
+
+

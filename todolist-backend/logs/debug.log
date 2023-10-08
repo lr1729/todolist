@@ -16,3 +16,20 @@
 {"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:04:36.854Z"}
 {"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:09:21.246Z"}
 {"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:09:40.450Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:39:00.033Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:42:26.019Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:43:47.616Z"}
+{"code":"ER_NO_SUCH_TABLE","errno":1146,"level":"error","message":"Table 'todolist.users' doesn't exist","sql":"SELECT * FROM users WHERE username = 'testuser'","sqlMessage":"Table 'todolist.users' doesn't exist","sqlState":"42S02","timestamp":"2023-10-08T07:44:39.173Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:44:59.578Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:46:10.763Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:48:22.200Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:48:34.764Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:49:21.352Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T07:56:41.741Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T08:06:38.095Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T08:07:50.610Z"}
+{"code":"ER_DUP_ENTRY","errno":1062,"level":"error","message":"Duplicate entry 'testuser' for key 'username'","sql":"INSERT INTO users (username, password) VALUES ('testuser', '$2b$10$twSpFcvDhFMXCjhgXCRoUeLAkE0lf4rcJUTPClNBrewKcRvcCryNa')","sqlMessage":"Duplicate entry 'testuser' for key 'username'","sqlState":"23000","timestamp":"2023-10-08T08:08:09.258Z"}
+{"code":"ER_BAD_NULL_ERROR","errno":1048,"level":"error","message":"Column 'status' cannot be null","sql":"INSERT INTO tasks (user_id, title, description, status) VALUES ('1', 'Test Task', 'This is a test task', NULL)","sqlMessage":"Column 'status' cannot be null","sqlState":"23000","timestamp":"2023-10-08T08:10:05.618Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T08:12:40.635Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T08:13:18.267Z"}
+{"level":"debug","message":"server started at port: 8080","timestamp":"2023-10-08T08:16:03.274Z"}
