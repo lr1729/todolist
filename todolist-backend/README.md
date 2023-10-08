@@ -28,11 +28,22 @@ Finally, start the server:
 npm start
 ```
 
+```
+Please replace `<repository-url>`, `<repository-directory>`, `<your-database-host>`, `<your-database-user>`, `<your-database-password>`, `<your-database-name>`, `<port-number>`, `<username>`, `<password>`, and `<jwt-token>` with your actual values.
+```
+## Authentication
+
+This API uses JWT for authentication. To authenticate a request, include the JWT token in the Authorization header:
+
+```
+Authorization: Bearer <jwt-token>
+```
+
 ## API Endpoints
-`GET /`
+### `GET /`
 Returns a welcome message.
 
-`POST /users/register`
+### `POST /users/register`
 Registers a new user.
 
 Request body:
@@ -51,7 +62,7 @@ Response body:
   "token": "<jwt-token>"
 }
 ```
-`POST /users/login`
+### `POST /users/login`
 Logs in a user.
 
 Request body:
@@ -70,38 +81,6 @@ Response body:
 }
 ```
 
-`GET /users/:id`
-
-Retrieves the details of a user. Requires authentication.
-
-`PUT /users/:id`
-
-Updates a user’s details. Requires authentication.
-
-Request body (at least one of these):
-
-```json
-{
-  "username": "<new-username>",
-  "password": "<new-password>"
-}
-```
-
-`DELETE /users/:id`
-Deletes a user. Requires authentication.
-
-## Authentication
-
-This API uses JWT for authentication. To authenticate a request, include the JWT token in the Authorization header:
-
-```
-Authorization: Bearer <jwt-token>
-```
-
-```
-Please replace `<repository-url>`, `<repository-directory>`, `<your-database-host>`, `<your-database-user>`, `<your-database-password>`, `<your-database-name>`, `<port-number>`, `<username>`, `<password>`, and `<jwt-token>` with your actual values.
-```
-
 ### `POST /users/:id/tasks`
 
 Creates a new task for the user with the specified `id`. Requires authentication.
@@ -114,14 +93,30 @@ Request body:
   "description": "<description>"
 }
 ```
+### `GET /users/:id`
 
-### GET /users/:id/tasks
+Retrieves the details of a user. Requires authentication.
+
+### `GET /users/:id/tasks`
 Retrieves all tasks of the user with the specified `id`. Requires authentication.
 
-### GET /users/:id/tasks/:taskId
+### `GET /users/:id/tasks/:taskId`
 Retrieves the details of a specific task of the user with the specified `id`. Requires authentication.
 
-### PUT /users/:id/tasks/:taskId
+### `PUT /users/:id`
+
+Updates a user’s details. Requires authentication.
+
+Request body (at least one of these):
+
+```json
+{
+  "username": "<new-username>",
+  "password": "<new-password>"
+}
+```
+
+### `PUT /users/:id/tasks/:taskId`
 Updates a specific task of the user with the specified `id`. Requires authentication. 
 
 Request body (at least one of these):
@@ -132,7 +127,8 @@ Request body (at least one of these):
 }
 ```
 
-### DELETE /users/:id/tasks/:taskId
+### `DELETE /users/:id/tasks/:taskId`
 Deletes a specific task of the user with the specified `id`. Requires authentication.
 
-
+### `DELETE /users/:id`
+Deletes a user. Requires authentication.
