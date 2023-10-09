@@ -29,5 +29,4 @@ export default {
   hashTypes: HashTypes,
   caching: Caching,
   db: mysqlRedis,
-  redis: redis,
 }
