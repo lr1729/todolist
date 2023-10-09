@@ -90,7 +90,8 @@ Request body:
 ```json
 {
   "title": "<title>",
-  "description": "<description>"
+  "description": "<description>",
+  "status": "Completed | In Progress | Pending"
 }
 ```
 ### `GET /users/:id`
@@ -123,7 +124,8 @@ Request body (at least one of these):
 ```json
 {
   "title": "<new-title>",
-  "description": "<new-description>"
+  "description": "<new-description>",
+  "status": "Completed | In Progress | Pending"
 }
 ```
 
