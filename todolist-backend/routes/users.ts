@@ -6,10 +6,13 @@ import logger from '../logger';
 import { authMiddleware } from '../middleware';
 import { hashPassword, verifyPassword, generateToken } from '../auth';
 
+// Creating a new router
 const router = Router();
 
+// Destructuring the database object
 const {db, hashTypes, caching} = database;
 
+// SQL query to create a new users table if it doesn't exist
 const createUserTable: string = `
   CREATE TABLE IF NOT EXISTS users(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -18,6 +21,7 @@ const createUserTable: string = `
   )
 `;
 
+// SQL query to create a new tasks table if it doesn't exist
 const createTaskTable: string = `
   CREATE TABLE IF NOT EXISTS tasks(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -28,6 +32,7 @@ const createTaskTable: string = `
   )
 `;
 
+// Function to refresh the cache for a specific user's tasks
 const refreshCache = (userId: string) => {
   const getTasks = 'SELECT * FROM tasks WHERE user_id = ?';
   return db.query(mysql.format(getTasks, [userId]), {hash: "getTasks" + userId, caching: caching.REFRESH})
@@ -37,6 +42,7 @@ const refreshCache = (userId: string) => {
     });
 };
 
+// Creating the users table
 db.query(createUserTable, {caching: caching.SKIP}, function (err, res) {
   if (err) throw err;
   if(res.warningCount !== 0)
@@ -45,6 +51,7 @@ db.query(createUserTable, {caching: caching.SKIP}, function (err, res) {
   logger.debug("Created new user table");
 });
 
+// Creating the tasks table
 db.query(createTaskTable, {caching: caching.SKIP}, function (err, res) {
   if (err) throw err;
   if(res.warningCount !== 0)
@@ -53,11 +60,12 @@ db.query(createTaskTable, {caching: caching.SKIP}, function (err, res) {
   logger.debug("Created new task table");
 });
 
-/* GET users listing. */
+// GET route for users listing
 router.get('/', (req, res) => {
   res.send('respond with a resource');
 });
 
+// POST route for user registration
 router.post('/register', async (req: Request, res: Response) => {
   const { username, password } = req.body as { username: string, password: string };
   if (!username || !password) {
@@ -86,7 +94,7 @@ router.post('/register', async (req: Request, res: Response) => {
 });
 
 
-// User login
+// POST route for user login
 router.post('/login', async (req: Request, res: Response) => {
   const { username, password } = req.body as { username: string, password: string };
   if (!username || !password) {
@@ -118,6 +126,7 @@ router.post('/login', async (req: Request, res: Response) => {
     });
 });
 
+// GET route for fetching a user by id
 router.get('/:id', authMiddleware, async (req: Request, res: Response) => {
   const userId = req.params.id;
 
@@ -133,7 +142,7 @@ router.get('/:id', authMiddleware, async (req: Request, res: Response) => {
     });
 });
 
-// Update user
+// PUT route for updating a user by id
 router.put('/:id', authMiddleware, async (req: Request, res: Response) => {
   const userId = req.params.id;
   const { username, password } = req.body as { username?: string, password?: string };
@@ -171,7 +180,7 @@ router.put('/:id', authMiddleware, async (req: Request, res: Response) => {
     });
 });
 
-// Delete user
+// DELETE route for deleting a user by id
 router.delete('/:id', authMiddleware, async (req: Request, res: Response) => {
   const userId = req.params.id;
 
@@ -187,7 +196,7 @@ router.delete('/:id', authMiddleware, async (req: Request, res: Response) => {
     });
 });
 
-// Create Task
+// POST route for creating a task for a user
 router.post('/:id/tasks', authMiddleware, async (req: Request, res: Response) => {
   const userId = req.params.id;
   const { title, description, status } = req.body as { title: string, description: string, status: string };
@@ -205,7 +214,7 @@ router.post('/:id/tasks', authMiddleware, async (req: Request, res: Response) =>
     });
 });
 
-// Get All Tasks
+// GET route for fetching all tasks of a user
 router.get('/:id/tasks', authMiddleware, async (req: Request, res: Response) => {
   const userId = req.params.id;
 
@@ -221,7 +230,7 @@ router.get('/:id/tasks', authMiddleware, async (req: Request, res: Response) => 
     });
 });
 
-// Get Specific Task
+// GET route for fetching a specific task of a user
 router.get('/:id/tasks/:taskId', authMiddleware, async (req: Request, res: Response) => {
   const userId = req.params.id;
   const taskId = req.params.taskId;
@@ -238,7 +247,7 @@ router.get('/:id/tasks/:taskId', authMiddleware, async (req: Request, res: Respo
     });
 });
 
-// Update Task
+// PUT route for updating a task by id for a user
 router.put('/:id/tasks/:taskId', authMiddleware, async (req: Request, res: Response) => {
   const userId = req.params.id;
   const taskId = req.params.taskId;
@@ -277,7 +286,7 @@ router.put('/:id/tasks/:taskId', authMiddleware, async (req: Request, res: Respo
     });
 });
 
-// Delete Task
+// DELETE route for deleting a task by id for a user
 router.delete('/:id/tasks/:taskId', authMiddleware, async (req: Request, res: Response) => {
   const userId = req.params.id;
   const taskId = req.params.taskId;
@@ -295,7 +304,7 @@ router.delete('/:id/tasks/:taskId', authMiddleware, async (req: Request, res: Re
     });
 });
 
-// Get User's Username
+// GET route for fetching a user's username by id
 router.get('/:id/username', authMiddleware, async (req: Request, res: Response) => {
   const userId = req.params.id;
   
@@ -311,4 +320,5 @@ router.get('/:id/username', authMiddleware, async (req: Request, res: Response) 
     });
 });
 
+// Exporting the router
 module.exports = router;

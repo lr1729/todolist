@@ -8,52 +8,59 @@ import { User } from './types';
 import { login, register, getUserTasks, getUserDetails, isAuthenticated, getUserId, logout, createTask} from './api';
 import './App.css';
 
+// Main App component
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState([]);
-  const [user, setUser] = useState<User | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
-  const [isUserDataFetched, setIsUserDataFetched] = useState(false);
+  // State variables
+  const [tasks, setTasks] = useState([]); // Tasks of the user
+  const [user, setUser] = useState<User | null>(null); // Current user
+  const [modalOpen, setModalOpen] = useState(false); // State of the modal (open/closed)
+  const [isLogin, setIsLogin] = useState(true); // State to check if user is logging in or registering
+  const [isUserDataFetched, setIsUserDataFetched] = useState(false); // State to check if user data has been fetched
 
+  // Function to handle logout
   const handleLogout = () => {
-    logout();
-    setUser(null);
-    setTasks([]);
+    logout(); // Logout function from api file
+    setUser(null); // Clearing the user state
+    setTasks([]); // Clearing the tasks state
   };
 
+  // Function to handle adding a task
   const handleAddTask = async (title: string, description: string, status: string) => {
     if (user) {
-      await createTask(user.id, title, description, status);
-      fetchTasksAndUser();
+      await createTask(user.id, title, description, status); // Create task function from api file
+      fetchTasksAndUser(); // Fetch updated tasks and user details
     }
   };
 
+  // Function to handle login
   const handleLogin = async (username: string, password: string) => {
-    await login(username, password);
-    const userId = getUserId();
-    const userDetails = await getUserDetails(userId);
-    setUser(userDetails);
-    fetchTasksAndUser();
+    await login(username, password); // Login function from api file
+    const userId = getUserId(); // Get user id function from api file
+    const userDetails = await getUserDetails(userId); // Get user details function from api file
+    setUser(userDetails); // Setting the user state with the fetched user details
+    fetchTasksAndUser(); // Fetch updated tasks and user details
   };
 
+  // Function to handle registration
   const handleRegister = async (username: string, password: string) => {
-    await register(username, password);
-    const userId = getUserId();
-    const userDetails = await getUserDetails(userId);
-    setUser(userDetails);
-    fetchTasksAndUser();
+    await register(username, password); // Register function from api file
+    const userId = getUserId(); // Get user id function from api file
+    const userDetails = await getUserDetails(userId); // Get user details function from api file
+    setUser(userDetails); // Setting the user state with the fetched user details
+    fetchTasksAndUser(); // Fetch updated tasks and user details
   };
 
-
+  // Function to fetch tasks of the current user
   const fetchTasks = async () => {
     if (user) {
-      const tasks = await getUserTasks(user.id);
-      setTasks(tasks);
+      const tasks = await getUserTasks(user.id); // Get user tasks function from api file
+      setTasks(tasks); // Setting the tasks state with the fetched tasks
     }
   };
 
+  // Function to fetch tasks and user details of the current user if authenticated 
   const fetchTasksAndUser = async () => {
-    if (isAuthenticated()) {
+    if (isAuthenticated()) { 
       const userId = getUserId();
       if (userId) {
         try {
@@ -62,16 +69,16 @@ const App: React.FC = () => {
           const userDetails = await getUserDetails(userId);
           setUser(userDetails);
         } catch (error) {
-          // Handle error
+          // Handle error 
         }
       }
     } else {
-      // If the user is not authenticated, clear the tasks and user details
       setTasks([]);
       setUser(null);
     }
   };
 
+  // Check if the user data has updated and fetch if so
   useEffect(() => {
       if (!isUserDataFetched) {
       fetchTasksAndUser();
@@ -79,6 +86,7 @@ const App: React.FC = () => {
       }
       }, [user, isUserDataFetched]);
 
+  // Set the fetched state to true if not null
   useEffect(() => {
       if (tasks.length > 0 || user !== null) {
       setIsUserDataFetched(true);
@@ -134,3 +142,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
